@@ -1,0 +1,52 @@
+@extends('layouts.main')
+@section('title', 'Daftar Guru')
+@section('content')
+<div class="container mx-auto py-12 px-4">
+<div class="flex justify-between items-center mb-6">
+<h1 class="text-3xl font-bold text-white">Daftar Guru</h1>
+<a href="{{ route('teachers.create') }}" class="bg-sky-600 text-white px-6 py-2 rounded-full font-semibold shadow-lg hover:bg-sky-700 transition-colors duration-300">
++ Tambah Guru
+</a>
+</div>
+@if (session('success'))
+<div class="bg-green-500 text-white px-4 py-3 rounded-lg relative mb-6 text-center shadow-md animate-fade-in-down">
+<span class="block sm:inline">{{ session('success') }}</span>
+</div>
+@endif
+<div class="bg-gray-800 rounded-2xl shadow-2xl overflow-x-auto border border-gray-700">
+<table class="min-w-full divide-y divide-gray-700">
+<thead class="bg-gray-700">
+<tr>
+<th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">#</th>
+<th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">NIP</th>
+<th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Nama</th>
+<th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Email</th>
+<th scope="col" class="px-6 py-4 text-left text-xs font-semibold text-gray-400 uppercase tracking-wider">Bidang Studi</th>
+<th scope="col" class="px-6 py-4 text-center text-xs font-semibold text-gray-400 uppercase tracking-wider">Aksi</th>
+</tr>
+</thead>
+<tbody class="bg-gray-800 divide-y divide-gray-700">
+@foreach($teachers as $teacher)
+<tr class="hover:bg-gray-700 transition-colors duration-200">
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ $loop->iteration }}</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ $teacher->nip }}</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ $teacher->nama }}</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ $teacher->email }}</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm text-gray-300">{{ $teacher->bidang_studi }}</td>
+<td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-center">
+<div class="flex justify-center space-x-2">
+<a href="{{ route('teachers.edit', $teacher->id) }}" class="bg-yellow-500 text-white px-4 py-2 rounded-md hover:bg-yellow-600 transition-colors duration-200">Edit</a>
+<form action="{{ route('teachers.destroy', $teacher->id) }}" method="POST" class="inline-block">
+@csrf
+@method('DELETE')
+<button type="submit" class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors duration-200" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini?')">Hapus</button>
+</form>
+</div>
+</td>
+</tr>
+@endforeach
+</tbody>
+</table>
+</div>
+</div>
+@endsection
