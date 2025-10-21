@@ -7,8 +7,8 @@ class StudentController extends Controller
 { 
 public function index() 
 { 
-$students = Student::with('schoolClass')->get(); 
-return response()->json($students); 
+    $students = Student::with('schoolClass')->get(); 
+    return response()->json($students); 
     } 
  
     public function store(Request $request) 
